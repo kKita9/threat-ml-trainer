@@ -1,0 +1,7 @@
+Logistic Regression – jako prosty baseline
+
+Random Forest – bardzo skuteczny i odporny na szum
+
+XGBoost / LightGBM – dla mocniejszej klasyfikacji
+
+SVM – do porównania, szczególnie przy małej liczbie cech
