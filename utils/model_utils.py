@@ -2,6 +2,9 @@ import os
 import joblib
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 from sklearn.model_selection import train_test_split
 
@@ -35,7 +38,7 @@ def train_model(X, y, model_type='xgb', random_state=42, **kwargs):
     Parameters:
         X (pd.DataFrame): features
         y (pd.Series): labels
-        model_type (str): 'xgb' or 'rf'
+        model_type (str): 'xgb', 'rf', 'lr' or 'svm'
         random_state (int): reproducibility seed
         kwargs: extra model parameters
 
@@ -46,6 +49,10 @@ def train_model(X, y, model_type='xgb', random_state=42, **kwargs):
         model = XGBClassifier(eval_metric='logloss', random_state=random_state, **kwargs)
     elif model_type == 'rf':
         model = RandomForestClassifier(random_state=random_state, **kwargs)
+    elif model_type == 'lr':
+        model = LogisticRegression(random_state=random_state, max_iter=10, **kwargs)
+    elif model_type == 'svm':
+        model = SVC(probability=True, random_state=random_state, **kwargs)
     else:
         raise ValueError(f"Unsupported model_type: {model_type}")
 
