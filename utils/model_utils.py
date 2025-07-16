@@ -43,8 +43,7 @@ def train_model(X, y, model_type='xgb', random_state=42, **kwargs):
         trained model
     """
     if model_type == 'xgb':
-        model = XGBClassifier(use_label_encoder=False, eval_metric='logloss',
-                              random_state=random_state, **kwargs)
+        model = XGBClassifier(eval_metric='logloss', random_state=random_state, **kwargs)
     elif model_type == 'rf':
         model = RandomForestClassifier(random_state=random_state, **kwargs)
     else:
