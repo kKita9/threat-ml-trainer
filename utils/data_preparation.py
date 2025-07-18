@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 from datetime import datetime
+from sklearn.preprocessing import LabelEncoder
+
 from utils.config import ALL_FILES, RELEVANT_COLUMNS, ELECTRIC_SCHEMA
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'MachineLearningCVE')
@@ -85,13 +87,13 @@ def encode_labels(df, label_column='Label'):
 def rename_columns(df):
     return df.rename(columns=ELECTRIC_SCHEMA)
 
-def save_dataset(df, name="cic_prepared", include_timestamp=True):
+def save_dataset(df, name="cic_prepared", include_timestamp=True, columns=None):
     os.makedirs(DATASETS_DIR, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S") if include_timestamp else ""
     base_name = f"{name}_{timestamp}" if timestamp else name
     file_path = os.path.join(DATASETS_DIR, base_name + ".csv")
 
-    df.to_csv(file_path, index=False)
+    df.to_csv(file_path, index=False, columns=columns)
 
     print(f"Dataset saved to: {file_path}")
     return file_path
