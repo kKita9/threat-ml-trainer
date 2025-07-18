@@ -1,10 +1,11 @@
 import os
 import joblib
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
-from sklearn.svm import LinearSVC
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 from sklearn.model_selection import train_test_split
 
@@ -29,6 +30,15 @@ def split_data(df, label_column='Label', test_size=0.3, random_state=42, stratif
 
     stratify_param = y if stratify else None
     return train_test_split(X, y, test_size=test_size, random_state=random_state, stratify=stratify_param)
+
+def encode_labels(df, label_name) -> tuple[LabelEncoder, pd.DataFrame]:
+    le = LabelEncoder()
+    df[f'{label_name}_encoded'] = le.fit_transform(df['attack_types'])
+
+    for i, class_name in enumerate(le.classes_):
+        print(f"{i}: {class_name}")
+
+    return le, df
 
 
 def train_model(X, y, model_type='xgb', random_state=42, **kwargs):
